@@ -34,7 +34,12 @@ func cmdUname() string {
 		fmt.Printf("%s", err)
 	}
 
+	//Remove empty line after running uname -r
 	var final_output = strings.ReplaceAll(string(out), "\n", "")
+
+	//CentOS7 sort fix
+	final_output = strings.ReplaceAll(final_output, ".el7.x86_64", "")
+
 	return final_output
 }
 
@@ -48,8 +53,18 @@ func cmdLsBoot() string {
 
 	var output_ls = string(out)
 	var output_ls_slices = strings.Split(output_ls, "\n")
-	natsort.Sort(output_ls_slices)
 
-	var final_output = output_ls_slices[len(output_ls_slices)-2][8:]
+	var output_list = []string{}
+	for _, _string := range output_ls_slices {
+		//CentOS7 sort fix
+		_string = strings.ReplaceAll(_string, ".el7.x86_64", "")
+
+		if _string != "" {
+			output_list = append(output_list, _string)
+		}
+	}
+	natsort.Sort(output_list)
+
+	var final_output = output_list[len(output_list)-1][8:]
 	return final_output
 }
