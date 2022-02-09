@@ -20,9 +20,9 @@ func main() {
 
 	//Compare console outputs
 	if running_kernel == latest_kernel {
-		fmt.Println(colorGreen + "All good. You are running the latest kernel version." + colorReset)
+		fmt.Println(colorGreen + "🟢 All good. You are running the latest kernel version." + colorReset)
 	} else {
-		fmt.Println(colorRed + "Please reboot to apply the kernel update!" + colorReset)
+		fmt.Println(colorRed + "🔴 Please reboot to apply the kernel update!" + colorReset)
 		fmt.Println()
 		fmt.Println("You are running:      " + colorRed + running_kernel + colorReset)
 		fmt.Println("The latest installed: " + colorGreen + latest_kernel + colorReset)
