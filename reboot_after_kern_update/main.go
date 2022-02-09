@@ -8,14 +8,17 @@ import (
 	"github.com/facette/natsort"
 )
 
-const colorReset = "\033[0m"
-const colorRed = "\033[31m"
-const colorGreen = "\033[32m"
-
 func main() {
+	//Set terminal output colors
+	const colorReset = "\033[0m"
+	const colorRed = "\033[31m"
+	const colorGreen = "\033[32m"
+
+	//Get console outputs
 	var running_kernel = cmdUname()
 	var latest_kernel = cmdLsBoot()
 
+	//Compare console outputs
 	if running_kernel == latest_kernel {
 		fmt.Println(colorGreen + "All good. You are running the latest kernel version." + colorReset)
 	} else {
@@ -34,11 +37,11 @@ func cmdUname() string {
 		fmt.Printf("%s", err)
 	}
 
-	//Remove empty line after running uname -r
-	var final_output = strings.ReplaceAll(string(out), "\n", "")
+	//Remove empty line (break) after running uname -r
+	var output = strings.ReplaceAll(string(out), "\n", "")
 
 	//CentOS7 sort fix
-	final_output = strings.ReplaceAll(final_output, ".el7.x86_64", "")
+	var final_output = strings.ReplaceAll(output, ".el7.x86_64", "")
 
 	return final_output
 }
@@ -51,11 +54,10 @@ func cmdLsBoot() string {
 		fmt.Printf("%s", err)
 	}
 
-	var output_ls = string(out)
-	var output_ls_slices = strings.Split(output_ls, "\n")
+	var output = strings.Split(string(out), "\n")
 
 	var output_list = []string{}
-	for _, _string := range output_ls_slices {
+	for _, _string := range output {
 		//CentOS7 sort fix
 		_string = strings.ReplaceAll(_string, ".el7.x86_64", "")
 
