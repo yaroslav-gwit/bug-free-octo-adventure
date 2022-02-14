@@ -14,9 +14,15 @@ type UpdatesStruct struct {
 }
 
 func main() {
-	OsChecker()
-	// var UpdatesStruct_var = UbuntuDebian()
-	var UpdatesStruct_var = Centos()
+	var UpdatesStruct_var UpdatesStruct
+	var OsChecker_var = OsChecker()
+
+	if OsChecker_var == "centos" {
+		UpdatesStruct_var = Centos()
+	} else if OsChecker_var == "ubuntu" {
+		UpdatesStruct_var = UbuntuDebian()
+	}
+
 	fmt.Println(" 🟢 There are " + strconv.Itoa(UpdatesStruct_var.AllUpdates) + " updates available.")
 	fmt.Println(" 🔴 Including " + strconv.Itoa(UpdatesStruct_var.SecurityUpdates) + " security updates!")
 }
@@ -110,12 +116,11 @@ func OsChecker() string {
 
 	if final_output == "ID=\"centos\"" {
 		final_output = "centos"
-	} else if final_output == "ID=ubuntu" {
+	} else if final_output == "ID=ubuntu" || final_output == "ID=pop" {
 		final_output = "ubuntu"
 	} else {
 		log.Fatal(1, "Sorry, but your OS is not supported!")
 	}
 
-	fmt.Println(final_output)
 	return final_output
 }
