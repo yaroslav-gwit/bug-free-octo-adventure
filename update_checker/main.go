@@ -102,7 +102,7 @@ func Centos() UpdatesStruct {
 }
 
 func OsChecker() string {
-	cmd := "cat /etc/os-release | grep \"ID=\""
+	cmd := "cat /etc/os-release | grep \"ID=\" | grep -v \"VERSION_ID=\""
 	var os_release, _ = exec.Command("bash", "-c", cmd).Output()
 	final_output := string(os_release)
 	final_output = strings.ReplaceAll(final_output, "\n", "")
