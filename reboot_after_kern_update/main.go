@@ -11,9 +11,9 @@ import (
 )
 
 type json_response_bad struct {
-	Status         int
-	Running_kernel string
-	Latest_kernel  string
+	Status         int    `json:"status"`
+	Running_kernel string `json:"running_kernel"`
+	Latest_kernel  string `json:"latest_kernel"`
 }
 
 func jsonResposeBad(status int, running_kernel, latest_kernel string) string {
@@ -28,8 +28,8 @@ func jsonResposeBad(status int, running_kernel, latest_kernel string) string {
 }
 
 type json_response_good struct {
-	Status         int
-	Running_kernel string
+	Status         int    `json:"status"`
+	Running_kernel string `json:"running_kernel"`
 }
 
 func jsonResposeGood(status int, running_kernel string) string {
