@@ -7,7 +7,21 @@ import (
 	"strings"
 )
 
+type UpdatesStruct struct {
+	AllUpdates      int
+	SecurityUpdates int
+}
+
 func main() {
+	var UpdatesStruct_var = UbuntuDebian()
+	fmt.Println(" 🟢 There are " + strconv.Itoa(UpdatesStruct_var.AllUpdates) + " updates available.")
+	fmt.Println(" 🔴 Including " + strconv.Itoa(UpdatesStruct_var.SecurityUpdates) + " security updates!")
+}
+
+func UbuntuDebian() UpdatesStruct {
+	//Set vars
+	var UpdatesStruct_var UpdatesStruct
+
 	//All updates list
 	refresh_cmd := "sudo apt-get update"
 	var _, _ = exec.Command("bash", "-c", refresh_cmd).Output()
@@ -23,7 +37,8 @@ func main() {
 			all_updates_list = append(all_updates_list, item)
 		}
 	}
-	fmt.Println(" 🟢 There are " + strconv.Itoa(len(all_updates_list)) + " updates available.")
+
+	UpdatesStruct_var.AllUpdates = len(all_updates_list)
 
 	//Sec updates list
 	security_updates_cmd := "sudo apt-get dist-upgrade -s | grep Inst | grep security"
@@ -38,5 +53,8 @@ func main() {
 			security_updates_list = append(security_updates_list, item)
 		}
 	}
-	fmt.Println(" 🔴 Including " + strconv.Itoa(len(security_updates_list)) + " security updates!")
+
+	UpdatesStruct_var.SecurityUpdates = len(security_updates_list)
+
+	return UpdatesStruct_var
 }
