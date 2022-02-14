@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os/exec"
-	// "strings"
 )
 
 func main() {
@@ -12,5 +11,6 @@ func main() {
 
 	cmd := "sudo apt-get dist-upgrade -s | grep Inst"
 	var out, _ = exec.Command("bash", "-c", cmd).Output()
-	fmt.Println(out)
+	update_output := string(out)
+	fmt.Println(update_output)
 }
