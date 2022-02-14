@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"os/exec"
@@ -13,7 +15,25 @@ type UpdatesStruct struct {
 	SecurityUpdates int
 }
 
+type JsonResponseStruct struct {
+	AllUpdates      int `json:"all_updates"`
+	SecurityUpdates int `json:"security_updates"`
+}
+
+func JsonResponse(all_updates, security_updates int) string {
+	var json_response JsonResponseStruct
+	json_response.AllUpdates = all_updates
+	json_response.SecurityUpdates = security_updates
+
+	var final_json_response, _ = json.Marshal(json_response)
+	return string(final_json_response)
+}
+
 func main() {
+	//Get command line flags
+	var jsonOutputFlag = flag.Bool("json", false, "Use JSON output")
+	flag.Parse()
+
 	var UpdatesStruct_var UpdatesStruct
 	var OsChecker_var = OsChecker()
 
@@ -28,7 +48,10 @@ func main() {
 	var final_output_security_updates_int = UpdatesStruct_var.SecurityUpdates
 	var final_output_security_updates_string = strconv.Itoa(UpdatesStruct_var.SecurityUpdates)
 
-	if final_output_all_updates_int > 1 && final_output_security_updates_int > 1 {
+	if *jsonOutputFlag {
+		var final_json_output = JsonResponse(final_output_all_updates_int, final_output_security_updates_int)
+		fmt.Println(final_json_output)
+	} else if final_output_all_updates_int > 1 && final_output_security_updates_int > 1 {
 		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available.")
 		fmt.Println(" 🔴 Including " + final_output_security_updates_string + " security updates!")
 	} else if final_output_all_updates_int > 1 {
@@ -134,7 +157,7 @@ func OsChecker() string {
 	} else if final_output == "ID=ubuntu" || final_output == "ID=pop" {
 		final_output = "ubuntu"
 	} else {
-		log.Fatal(1, "Sorry, but your OS is not supported!")
+		log.Fatal(1, " Sorry, but your OS is not supported!")
 	}
 
 	return final_output
