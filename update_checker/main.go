@@ -69,7 +69,7 @@ func Centos() UpdatesStruct {
 	refresh_cmd := "sudo yum makecache fast"
 	var _, _ = exec.Command("bash", "-c", refresh_cmd).Output()
 
-	all_updates_cmd := "sudo yum --cacheonly check-update"
+	all_updates_cmd := "sudo yum --cacheonly check-update | grep -v \"Loaded plugins: fastestmirror\" | grep -vG \"^$\""
 	var all_updates_out, _ = exec.Command("bash", "-c", all_updates_cmd).Output()
 	all_updates_output := strings.Split(string(all_updates_out), "\n")
 
