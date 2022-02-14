@@ -23,7 +23,7 @@ func main() {
 			all_updates_list = append(all_updates_list, item)
 		}
 	}
-	fmt.Println("There are: " + strconv.Itoa(len(all_updates_list)) + " updates available.")
+	fmt.Println(" 🟢 There are " + strconv.Itoa(len(all_updates_list)) + " updates available.")
 
 	//Sec updates list
 	security_updates_cmd := "sudo apt-get dist-upgrade -s | grep Inst | grep security"
@@ -38,5 +38,5 @@ func main() {
 			security_updates_list = append(security_updates_list, item)
 		}
 	}
-	fmt.Println("Including " + strconv.Itoa(len(security_updates_list)) + " security updates!")
+	fmt.Println(" 🔴 Including " + strconv.Itoa(len(security_updates_list)) + " security updates!")
 }
