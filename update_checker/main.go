@@ -23,8 +23,23 @@ func main() {
 		UpdatesStruct_var = UbuntuDebian()
 	}
 
-	fmt.Println(" 🟢 There are " + strconv.Itoa(UpdatesStruct_var.AllUpdates) + " updates available.")
-	fmt.Println(" 🔴 Including " + strconv.Itoa(UpdatesStruct_var.SecurityUpdates) + " security updates!")
+	var final_output_all_updates_int = UpdatesStruct_var.AllUpdates
+	var final_output_all_updates_string = strconv.Itoa(UpdatesStruct_var.AllUpdates)
+	var final_output_security_updates_int = UpdatesStruct_var.SecurityUpdates
+	var final_output_security_updates_string = strconv.Itoa(UpdatesStruct_var.SecurityUpdates)
+
+	if final_output_all_updates_int > 1 && final_output_security_updates_int > 1 {
+		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available.")
+		fmt.Println(" 🔴 Including " + final_output_security_updates_string + " security updates!")
+	} else if final_output_all_updates_int > 1 {
+		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available.")
+	} else if final_output_security_updates_int > 1 {
+		fmt.Println(" 🔴 There are " + final_output_security_updates_string + " security updates waiting to be installed!")
+	} else if final_output_all_updates_int == 1 && final_output_security_updates_int == 1 {
+		fmt.Println(" 🔴 There is " + final_output_all_updates_string + " security update waiting to be installed!")
+	} else {
+		fmt.Println(" 🟢 The system is up to date. Great work!")
+	}
 }
 
 func UbuntuDebian() UpdatesStruct {
