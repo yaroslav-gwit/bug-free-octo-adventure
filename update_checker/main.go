@@ -13,6 +13,7 @@ type UpdatesStruct struct {
 }
 
 func main() {
+	OsChecker()
 	// var UpdatesStruct_var = UbuntuDebian()
 	var UpdatesStruct_var = Centos()
 	fmt.Println(" 🟢 There are " + strconv.Itoa(UpdatesStruct_var.AllUpdates) + " updates available.")
@@ -79,7 +80,6 @@ func Centos() UpdatesStruct {
 			all_updates_list = append(all_updates_list, item)
 		}
 	}
-	fmt.Println(all_updates_list)
 	UpdatesStruct_var.AllUpdates = len(all_updates_list)
 
 	//Sec updates list
@@ -96,8 +96,17 @@ func Centos() UpdatesStruct {
 		}
 	}
 
-	fmt.Println(security_updates_list)
 	UpdatesStruct_var.SecurityUpdates = len(security_updates_list)
 
 	return UpdatesStruct_var
+}
+
+func OsChecker() string {
+	cmd := "cat /etc/os-release | grep \"ID=\""
+	var os_release, _ = exec.Command("bash", "-c", cmd).Output()
+	final_output := string(os_release)
+	final_output = strings.ReplaceAll(final_output, "\n", "")
+
+	fmt.Println(final_output)
+	return final_output
 }
