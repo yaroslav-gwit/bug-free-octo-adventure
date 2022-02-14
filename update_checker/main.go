@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -106,6 +107,14 @@ func OsChecker() string {
 	var os_release, _ = exec.Command("bash", "-c", cmd).Output()
 	final_output := string(os_release)
 	final_output = strings.ReplaceAll(final_output, "\n", "")
+
+	if final_output == "ID=\"centos\"" {
+		final_output = "centos"
+	} else if final_output == "ID=ubuntu" {
+		final_output = "ubuntu"
+	} else {
+		log.Fatal(1, "Sorry, but your OS is not supported!")
+	}
 
 	fmt.Println(final_output)
 	return final_output
