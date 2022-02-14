@@ -13,8 +13,16 @@ func main() {
 
 	all_updates_cmd := "sudo apt-get dist-upgrade -s | grep Inst"
 	var all_updates_out, _ = exec.Command("bash", "-c", all_updates_cmd).Output()
-	all_updates_output := string(all_updates_out)
-	fmt.Println(all_updates_output)
+	all_updates_output := strings.Split(string(all_updates_out), "\n")
+
+	var all_updates_list []string
+
+	for _, item := range all_updates_output {
+		if item != "" {
+			all_updates_list = append(all_updates_list, item)
+		}
+	}
+	fmt.Println(len(all_updates_list))
 
 	//Sec updates list
 	security_updates_cmd := "sudo apt-get dist-upgrade -s | grep Inst | grep security"
@@ -29,5 +37,5 @@ func main() {
 			security_updates_list = append(security_updates_list, item)
 		}
 	}
-	fmt.Println(security_updates_list)
+	fmt.Println(len(security_updates_list))
 }
