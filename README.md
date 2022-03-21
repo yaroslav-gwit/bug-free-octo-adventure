@@ -28,7 +28,7 @@ The latest installed: 3.10.0-1160.53.1.el7.x86_64
 ```
 wget https://github.com/yaroslav-gwit/system-checks/releases/download/0.02-alpha/hr_update_checker
 chmod +x hr_update_checker
-mv hr_kern_reboot /bin/hr_update_checker
+mv hr_update_checker /bin/hr_update_checker
 
 hr_update_checker
 ```
