@@ -24,6 +24,7 @@ The latest installed: 3.10.0-1160.53.1.el7.x86_64
 ```
 
 ## Update checker for Linux
+### Installation
 ```
 wget https://github.com/yaroslav-gwit/system-checks/releases/download/0.02-alpha/hr_update_checker
 chmod +x hr_update_checker
