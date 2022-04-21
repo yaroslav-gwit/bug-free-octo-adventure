@@ -66,7 +66,7 @@ func main() {
 			var jsonRespose = jsonResposeGood(status, running_kernel)
 			fmt.Println(jsonRespose)
 		} else {
-			fmt.Println(colorGreen + " 🟢 All good. You are running the latest kernel version." + colorReset)
+			fmt.Println(colorGreen + " 🟢 " + colorReset + "All good. You are running the latest kernel version.")
 		}
 	} else {
 		status = 1
@@ -74,9 +74,9 @@ func main() {
 			var jsonRespose = jsonResposeBad(status, running_kernel, latest_kernel)
 			fmt.Println(jsonRespose)
 		} else {
-			fmt.Println(colorRed + " 🔴 Please reboot to apply the kernel update!" + colorReset)
+			fmt.Println(colorRed + " 🔴 " + colorReset + "Please reboot to apply the kernel update!")
 			fmt.Println()
-			fmt.Println(" You are running:      " + colorRed + running_kernel + colorReset)
+			fmt.Println(" You are running:      " + running_kernel)
 			fmt.Println(" The latest installed: " + colorGreen + latest_kernel + colorReset)
 		}
 	}
