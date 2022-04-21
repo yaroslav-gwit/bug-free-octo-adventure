@@ -154,7 +154,7 @@ func OsChecker() string {
 
 	if final_output == "ID=\"centos\"" {
 		final_output = "centos"
-	} else if final_output == "ID=ubuntu" || final_output == "ID=pop" {
+	} else if final_output == "ID=ubuntu" || final_output == "ID=pop" || final_output == "ID=debian" {
 		final_output = "ubuntu"
 	} else {
 		log.Fatal(1, " Sorry, but your OS is not supported!")
