@@ -54,12 +54,17 @@ func main() {
 	} else if final_output_all_updates_int > 1 && final_output_security_updates_int > 1 {
 		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available.")
 		fmt.Println(" 🔴 Including " + final_output_security_updates_string + " security updates!")
+	} else if final_output_all_updates_int == 1 && final_output_security_updates_int == 1 {
+		fmt.Println(" 🟡 There is " + final_output_all_updates_string + " update available.")
+		fmt.Println(" 🔴 Including " + final_output_security_updates_string + " security update!")
+	} else if final_output_security_updates_int == 1 {
+		fmt.Println(" 🔴 There is " + final_output_security_updates_string + " security update waiting to be installed!")
+	} else if final_output_all_updates_int == 1 {
+		fmt.Println(" 🟡 There is " + final_output_all_updates_string + " update available.")
 	} else if final_output_all_updates_int > 1 {
 		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available.")
 	} else if final_output_security_updates_int > 1 {
 		fmt.Println(" 🔴 There are " + final_output_security_updates_string + " security updates waiting to be installed!")
-	} else if final_output_all_updates_int == 1 && final_output_security_updates_int == 1 {
-		fmt.Println(" 🔴 There is " + final_output_all_updates_string + " security update waiting to be installed!")
 	} else {
 		fmt.Println(" 🟢 The system is up to date. Great work!")
 	}
