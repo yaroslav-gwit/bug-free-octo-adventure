@@ -75,9 +75,8 @@ func main() {
 			fmt.Println(jsonRespose)
 		} else {
 			fmt.Println(colorRed + " 🔴 " + colorReset + "Please reboot to apply the kernel update!")
-			fmt.Println()
-			fmt.Println(" You are running:      " + running_kernel)
-			fmt.Println(" The latest installed: " + colorGreen + latest_kernel + colorReset)
+			fmt.Println("       Currently active kernel:     " + running_kernel)
+			fmt.Println("       The latest installed:        " + colorGreen + latest_kernel + colorReset)
 		}
 	}
 }
