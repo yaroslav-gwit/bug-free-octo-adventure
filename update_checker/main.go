@@ -133,7 +133,7 @@ func Centos() UpdatesStruct {
 	UpdatesStruct_var.AllUpdates = len(all_updates_list)
 
 	//Sec updates list
-	security_updates_cmd := "sudo yum --cacheonly updateinfo info security | grep -v \"Loaded plugins: fastestmirror\" | grep -vG \"^$\" | grep -v \"updateinfo info done\""
+	security_updates_cmd := "sudo yum --cacheonly updateinfo info security | grep -v \"Loaded plugins: fastestmirror\" | grep -v \"updateinfo info done\" | grep -v \": manager,\" | grep -v \"This system is not registered\""
 	var security_updates_out, _ = exec.Command("bash", "-c", security_updates_cmd).Output()
 
 	security_updates_output := strings.Split(string(security_updates_out), "\n")
