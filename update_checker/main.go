@@ -119,7 +119,7 @@ func Centos() UpdatesStruct {
 	refresh_cmd := "sudo yum makecache fast"
 	var _, _ = exec.Command("bash", "-c", refresh_cmd).Output()
 
-	all_updates_cmd := "sudo yum --cacheonly check-update | grep -v \"Loaded plugins: \" | grep -v \"updateinfo info done\" | grep -v \"This system is not registered\" | grep -v \": manager,\""
+	all_updates_cmd := "sudo yum --cacheonly check-update | grep -v \"Loaded plugins: \" | grep -v \"updateinfo info done\" | grep -v \": manager,\" | grep -v \"This system is not registered\" | | grep -v \"versionlock\""
 	var all_updates_out, _ = exec.Command("bash", "-c", all_updates_cmd).Output()
 	all_updates_output := strings.Split(string(all_updates_out), "\n")
 
@@ -133,7 +133,7 @@ func Centos() UpdatesStruct {
 	UpdatesStruct_var.AllUpdates = len(all_updates_list)
 
 	//Sec updates list
-	security_updates_cmd := "sudo yum --cacheonly updateinfo info security | grep -v \"Loaded plugins: \" | grep -v \"updateinfo info done\" | grep -v \": manager,\" | grep -v \"This system is not registered\""
+	security_updates_cmd := "sudo yum --cacheonly updateinfo info security | grep -v \"Loaded plugins: \" | grep -v \"updateinfo info done\" | grep -v \": manager,\" | grep -v \"This system is not registered\" | | grep -v \"versionlock\""
 	var security_updates_out, _ = exec.Command("bash", "-c", security_updates_cmd).Output()
 
 	security_updates_output := strings.Split(string(security_updates_out), "\n")
