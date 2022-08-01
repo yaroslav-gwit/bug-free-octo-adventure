@@ -129,12 +129,11 @@ func cmdLsBoot() string {
 	// Use EOM kernel if detected
 	var unameVar = cmdUname()
 	if r.MatchString(unameVar) {
-		if len(output_list_oem) > 0 {
-			output_list = output_list_oem
-		}
+		output_list = output_list_oem
 	} else {
 		output_list = output_list_normal
 	}
+	fmt.Println(output_list)
 
 	for _, _string := range output {
 		//CentOS7 sort fix
