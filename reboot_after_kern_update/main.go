@@ -146,7 +146,9 @@ func cmdLsBoot() string {
 		}
 	}
 	natsort.Sort(output_list)
+	fmt.Println("Final sorted list: ", output_list_normal)
 
 	var final_output = output_list[len(output_list)-1][8:]
+	fmt.Println("Final single item: ", final_output)
 	return final_output
 }
