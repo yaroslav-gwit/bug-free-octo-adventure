@@ -125,6 +125,8 @@ func cmdLsBoot() string {
 			output_list_normal = append(output_list_normal, i)
 		}
 	}
+	fmt.Println("OEM list: ", output_list_oem)
+	fmt.Println("Normal list: ", output_list_normal)
 
 	// Use EOM kernel if detected
 	var unameVar = cmdUname()
@@ -133,7 +135,7 @@ func cmdLsBoot() string {
 	} else {
 		output_list = output_list_normal
 	}
-	fmt.Println(output_list)
+	fmt.Println("Final list: ", output_list)
 
 	for _, _string := range output {
 		//CentOS7 sort fix
