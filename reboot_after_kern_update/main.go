@@ -125,8 +125,8 @@ func cmdLsBoot() string {
 			output_list_normal = append(output_list_normal, i)
 		}
 	}
-	fmt.Println("OEM list: ", output_list_oem)
-	fmt.Println("Normal list: ", output_list_normal)
+	// fmt.Println("OEM list: ", output_list_oem)
+	// fmt.Println("Normal list: ", output_list_normal)
 
 	// Use EOM kernel if detected
 	var unameVar = cmdUname()
@@ -135,7 +135,7 @@ func cmdLsBoot() string {
 	} else {
 		output_list = output_list_normal
 	}
-	fmt.Println("Final list: ", output_list)
+	// fmt.Println("Final list: ", output_list)
 
 	for _, i := range output_list {
 		//CentOS7 sort fix
@@ -146,11 +146,11 @@ func cmdLsBoot() string {
 		}
 	}
 	natsort.Sort(output_list)
-	fmt.Println("Final sorted list: ", output_list_normal)
+	// fmt.Println("Final sorted list: ", output_list_normal)
 
 	var final_output = output_list[len(output_list)-1]
 	final_output = strings.ReplaceAll(final_output, "vmlinuz-", "")
 
-	fmt.Println("Final single item: ", final_output)
+	// fmt.Println("Final single item: ", final_output)
 	return final_output
 }
