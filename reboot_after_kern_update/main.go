@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os/exec"
+	"regexp"
 	"strings"
 
 	"github.com/facette/natsort"
@@ -104,16 +105,37 @@ func cmdLsBoot() string {
 	//Get command line output
 	var cmd = "ls -1 /boot/ | grep \"vmlinuz\\|vmlinux\" | grep -v \"vmlinuz.old\\|vmlinux.old\""
 	var out, err = exec.Command("bash", "-c", cmd).Output()
-
-	//Handle errors
 	if err != nil {
 		fmt.Printf("%s", err)
 	}
 
 	//Parse the output
 	var output = strings.Split(string(out), "\n")
+	var output_list []string
+	var output_list_oem []string
+	var output_list_normal []string
 
-	var output_list = []string{}
+	// Detect if OEM kernel is in use
+	var r, _ = regexp.Compile(".*oem.*")
+	for _, i := range output {
+		var reMatch = r.MatchString(i)
+		if reMatch {
+			output_list_oem = append(output_list_oem, i)
+		} else {
+			output_list_normal = append(output_list_normal, i)
+		}
+	}
+
+	// Use EOM kernel if detected
+	var unameVar = cmdUname()
+	if r.MatchString(unameVar) {
+		if len(output_list_oem) > 0 {
+			output_list = output_list_oem
+		}
+	} else {
+		output_list = output_list_normal
+	}
+
 	for _, _string := range output {
 		//CentOS7 sort fix
 		_string = strings.ReplaceAll(_string, ".el7.x86_64", "")
