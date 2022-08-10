@@ -162,7 +162,7 @@ func AlmaLinux() UpdatesStruct {
 	var refreshCmdAgr1 = "sudo"
 	var refreshCmdAgr2 = "dnf"
 	var refreshCmdAgr3 = "makecache"
-	exec.Command(refreshCmdAgr1, refreshCmdAgr2, refreshCmdAgr3)
+	var _, _ = exec.Command(refreshCmdAgr1, refreshCmdAgr2, refreshCmdAgr3).Output()
 
 	// All updates list
 	var allUpdatesCmdArg1 = "sudo"
