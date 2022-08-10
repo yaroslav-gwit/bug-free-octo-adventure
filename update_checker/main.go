@@ -180,7 +180,7 @@ func AlmaLinux() UpdatesStruct {
 	// Apply filters, to sort out garbage output
 	var allUpdatesList []string
 	for _, item := range allUpdatesOutput {
-		if !r1.MatchString(item) {
+		if r1.MatchString(item) {
 			_ = "" // skip item
 		} else if len(item) < 1 {
 			_ = "" // skip item
@@ -210,7 +210,7 @@ func AlmaLinux() UpdatesStruct {
 	// Apply filters, to sort out garbage output
 	var securityUpdatesList []string
 	for _, item := range securityUpdatesOutput {
-		if !r1.MatchString(item) {
+		if r1.MatchString(item) {
 			_ = "" // skip item
 		} else if len(item) < 1 {
 			_ = "" // skip item
