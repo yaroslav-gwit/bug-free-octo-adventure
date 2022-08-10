@@ -220,6 +220,8 @@ func AlmaLinux() UpdatesStruct {
 	}
 	UpdatesStruct_var.SecurityUpdates = len(securityUpdatesList)
 
+	fmt.Println(allUpdatesList)
+	fmt.Println(securityUpdatesList)
 	return UpdatesStruct_var
 }
 
