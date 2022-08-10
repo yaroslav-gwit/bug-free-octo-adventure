@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -30,7 +31,7 @@ func JsonResponse(all_updates, security_updates int) string {
 }
 
 func main() {
-	//Get command line flags
+	// Get command line flags
 	var jsonOutputFlag = flag.Bool("json", false, "Use JSON output")
 	flag.Parse()
 
@@ -39,6 +40,8 @@ func main() {
 
 	if OsChecker_var == "centos" {
 		UpdatesStruct_var = Centos()
+	} else if OsChecker_var == "almalinux" {
+		UpdatesStruct_var = AlmaLinux()
 	} else if OsChecker_var == "ubuntu" {
 		UpdatesStruct_var = UbuntuDebian()
 	}
@@ -71,10 +74,10 @@ func main() {
 }
 
 func UbuntuDebian() UpdatesStruct {
-	//Set vars
+	// Set vars
 	var UpdatesStruct_var UpdatesStruct
 
-	//All updates list
+	// All updates list
 	refresh_cmd := "sudo apt-get update"
 	var _, _ = exec.Command("bash", "-c", refresh_cmd).Output()
 
@@ -92,7 +95,7 @@ func UbuntuDebian() UpdatesStruct {
 
 	UpdatesStruct_var.AllUpdates = len(all_updates_list)
 
-	//Sec updates list
+	// Sec updates list
 	security_updates_cmd := "sudo apt-get dist-upgrade -s | grep Inst | grep security"
 	var security_updates_out, _ = exec.Command("bash", "-c", security_updates_cmd).Output()
 
@@ -112,10 +115,10 @@ func UbuntuDebian() UpdatesStruct {
 }
 
 func Centos() UpdatesStruct {
-	//Set vars
+	// Set vars
 	var UpdatesStruct_var UpdatesStruct
 
-	//All updates list
+	// All updates list
 	refresh_cmd := "sudo yum makecache fast"
 	var _, _ = exec.Command("bash", "-c", refresh_cmd).Output()
 
@@ -132,7 +135,7 @@ func Centos() UpdatesStruct {
 	}
 	UpdatesStruct_var.AllUpdates = len(all_updates_list)
 
-	//Sec updates list
+	// Sec updates list
 	security_updates_cmd := "sudo yum --cacheonly updateinfo info security | grep -v \"Loaded plugins: \" | grep -v \"updateinfo info done\" | grep -v \": manager,\" | grep -v \"This system is not registered\" | grep -v \"versionlock\""
 	var security_updates_out, _ = exec.Command("bash", "-c", security_updates_cmd).Output()
 
@@ -151,6 +154,67 @@ func Centos() UpdatesStruct {
 	return UpdatesStruct_var
 }
 
+func AlmaLinux() UpdatesStruct {
+	// Set vars
+	var UpdatesStruct_var UpdatesStruct
+
+	// Create update cache
+	// var refreshCmdAgr1 = "sudo"
+	// var refreshCmdAgr2 = "dnf"
+	// var refreshCmdAgr3 = "makecache"
+	// exec.Command(refreshCmdAgr1, refreshCmdAgr2, refreshCmdAgr3)
+
+	// All updates list
+	var allUpdatesCmdArg1 = "sudo"
+	var allUpdatesCmdArg2 = "dnf"
+	var allUpdatesCmdArg3 = "--cacheonly"
+	var allUpdatesCmdArg4 = "check-update"
+	var allUpdatesOut, _ = exec.Command(allUpdatesCmdArg1,
+		allUpdatesCmdArg2,
+		allUpdatesCmdArg3,
+		allUpdatesCmdArg4).Output()
+
+	var allUpdatesOutput = strings.Split(string(allUpdatesOut), "\n")
+	var r1, _ = regexp.Compile("Last metadata expiration check")
+
+	// Apply filters, to sort out garbage output
+	var allUpdatesList []string
+	for _, item := range allUpdatesOutput {
+		if item != "" || !r1.MatchString(item) {
+			allUpdatesList = append(allUpdatesList, item)
+		}
+	}
+	UpdatesStruct_var.AllUpdates = len(allUpdatesList)
+
+	// Sec updates list
+	var securityUpdatesCmdArg1 = "sudo"
+	var securityUpdatesCmdArg2 = "dnf"
+	var securityUpdatesCmdArg3 = "--cacheonly"
+	var securityUpdatesCmdArg4 = "updateinfo"
+	var securityUpdatesCmdArg5 = "list"
+	var securityUpdatesCmdArg6 = "updates"
+	var securityUpdatesCmdArg7 = "security"
+	var securityUpdatesOut, _ = exec.Command(securityUpdatesCmdArg1,
+		securityUpdatesCmdArg2,
+		securityUpdatesCmdArg3,
+		securityUpdatesCmdArg4,
+		securityUpdatesCmdArg5,
+		securityUpdatesCmdArg6,
+		securityUpdatesCmdArg7).Output()
+	securityUpdatesOutput := strings.Split(string(securityUpdatesOut), "\n")
+
+	// Apply filters, to sort out garbage output
+	var securityUpdatesList []string
+	for _, item := range securityUpdatesOutput {
+		if item != "" || !r1.MatchString(item) {
+			securityUpdatesList = append(securityUpdatesList, item)
+		}
+	}
+	UpdatesStruct_var.SecurityUpdates = len(securityUpdatesList)
+
+	return UpdatesStruct_var
+}
+
 func OsChecker() string {
 	cmd := "cat /etc/os-release | grep \"ID=\" | grep -v \"VERSION_ID=\""
 	var os_release, _ = exec.Command("bash", "-c", cmd).Output()
@@ -159,6 +223,8 @@ func OsChecker() string {
 
 	if final_output == "ID=\"centos\"" {
 		final_output = "centos"
+	} else if final_output == "ID=\"almalinux\"" {
+		final_output = "almalinux"
 	} else if final_output == "ID=ubuntu" || final_output == "ID=pop" || final_output == "ID=debian" {
 		final_output = "ubuntu"
 	} else {
