@@ -55,17 +55,17 @@ func main() {
 		var final_json_output = JsonResponse(final_output_all_updates_int, final_output_security_updates_int)
 		fmt.Println(final_json_output)
 	} else if final_output_all_updates_int > 1 && final_output_security_updates_int > 1 {
-		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available.")
+		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available")
 		fmt.Println(" 🔴 Including " + final_output_security_updates_string + " security updates!")
 	} else if final_output_all_updates_int == 1 && final_output_security_updates_int == 1 {
-		fmt.Println(" 🟡 There is " + final_output_all_updates_string + " update available.")
+		fmt.Println(" 🟡 There is " + final_output_all_updates_string + " update available")
 		fmt.Println(" 🔴 Including " + final_output_security_updates_string + " security update!")
 	} else if final_output_security_updates_int == 1 {
 		fmt.Println(" 🔴 There is " + final_output_security_updates_string + " security update waiting to be installed!")
 	} else if final_output_all_updates_int == 1 {
-		fmt.Println(" 🟡 There is " + final_output_all_updates_string + " update available.")
+		fmt.Println(" 🟡 There is " + final_output_all_updates_string + " update available")
 	} else if final_output_all_updates_int > 1 {
-		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available.")
+		fmt.Println(" 🟡 There are " + final_output_all_updates_string + " updates available")
 	} else if final_output_security_updates_int > 1 {
 		fmt.Println(" 🔴 There are " + final_output_security_updates_string + " security updates waiting to be installed!")
 	} else {
@@ -180,7 +180,11 @@ func AlmaLinux() UpdatesStruct {
 	// Apply filters, to sort out garbage output
 	var allUpdatesList []string
 	for _, item := range allUpdatesOutput {
-		if item != "" || !r1.MatchString(item) {
+		if !r1.MatchString(item) {
+			_ = "" // skip item
+		} else if len(item) < 1 {
+			_ = "" // skip item
+		} else {
 			allUpdatesList = append(allUpdatesList, item)
 		}
 	}
@@ -206,7 +210,11 @@ func AlmaLinux() UpdatesStruct {
 	// Apply filters, to sort out garbage output
 	var securityUpdatesList []string
 	for _, item := range securityUpdatesOutput {
-		if item != "" || !r1.MatchString(item) {
+		if !r1.MatchString(item) {
+			_ = "" // skip item
+		} else if len(item) < 1 {
+			_ = "" // skip item
+		} else {
 			securityUpdatesList = append(securityUpdatesList, item)
 		}
 	}
@@ -228,7 +236,7 @@ func OsChecker() string {
 	} else if final_output == "ID=ubuntu" || final_output == "ID=pop" || final_output == "ID=debian" {
 		final_output = "ubuntu"
 	} else {
-		log.Fatal(1, " Sorry, but your OS"+final_output+" is not supported!")
+		log.Fatal(1, " ⛔ Sorry, but your OS "+final_output+" is not yet supported!")
 	}
 
 	return final_output
