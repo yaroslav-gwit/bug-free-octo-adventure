@@ -159,10 +159,10 @@ func AlmaLinux() UpdatesStruct {
 	var UpdatesStruct_var UpdatesStruct
 
 	// Create update cache
-	// var refreshCmdAgr1 = "sudo"
-	// var refreshCmdAgr2 = "dnf"
-	// var refreshCmdAgr3 = "makecache"
-	// exec.Command(refreshCmdAgr1, refreshCmdAgr2, refreshCmdAgr3)
+	var refreshCmdAgr1 = "sudo"
+	var refreshCmdAgr2 = "dnf"
+	var refreshCmdAgr3 = "makecache"
+	exec.Command(refreshCmdAgr1, refreshCmdAgr2, refreshCmdAgr3)
 
 	// All updates list
 	var allUpdatesCmdArg1 = "sudo"
@@ -198,7 +198,8 @@ func AlmaLinux() UpdatesStruct {
 	var securityUpdatesCmdArg5 = "list"
 	var securityUpdatesCmdArg6 = "updates"
 	var securityUpdatesCmdArg7 = "security"
-	var securityUpdatesOut, _ = exec.Command(securityUpdatesCmdArg1,
+	var securityUpdatesOut, _ = exec.Command(
+		securityUpdatesCmdArg1,
 		securityUpdatesCmdArg2,
 		securityUpdatesCmdArg3,
 		securityUpdatesCmdArg4,
@@ -240,7 +241,7 @@ func OsChecker() string {
 	} else if final_output == "ID=ubuntu" || final_output == "ID=pop" || final_output == "ID=debian" {
 		final_output = "ubuntu"
 	} else {
-		log.Fatal(1, " ⛔ Sorry, but your OS "+final_output+" is not yet supported!")
+		log.Fatal(1, " ⛔ Sorry, but your OS \""+final_output+"\" is not yet supported!")
 	}
 
 	return final_output
