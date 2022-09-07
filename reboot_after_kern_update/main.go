@@ -139,6 +139,7 @@ func cmdLsBoot() string {
 
 	for _, i := range output_list {
 		//CentOS7 sort fix
+		fmt.Println(i)
 		i = strings.ReplaceAll(i, ".el7.x86_64", "")
 
 		if i != "" {
