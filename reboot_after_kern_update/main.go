@@ -137,6 +137,7 @@ func cmdLsBoot() string {
 	}
 	// fmt.Println("Final list: ", output_list)
 
+	var final_output_list []string
 	for _, i := range output_list {
 		//CentOS7 sort fix
 		fmt.Printf("Before %s\n", i)
@@ -144,13 +145,13 @@ func cmdLsBoot() string {
 		fmt.Printf("After %s\n", i)
 
 		if i != "" {
-			output_list = append(output_list, i)
+			final_output_list = append(final_output_list, i)
 		}
 	}
-	natsort.Sort(output_list)
-	fmt.Println("Final sorted list: ", output_list_normal)
+	natsort.Sort(final_output_list)
+	fmt.Println("Final sorted list: ", final_output_list)
 
-	var final_output = output_list[len(output_list)-1]
+	var final_output = final_output_list[len(final_output_list)-1]
 	final_output = strings.ReplaceAll(final_output, "vmlinuz-", "")
 
 	fmt.Println("Final single item: ", final_output)
