@@ -140,20 +140,20 @@ func cmdLsBoot() string {
 	var final_output_list []string
 	for _, i := range output_list {
 		//CentOS7 sort fix
-		fmt.Printf("Before %s\n", i)
+		// fmt.Printf("Before %s\n", i)
 		i = strings.ReplaceAll(i, ".el7.x86_64", "")
-		fmt.Printf("After %s\n", i)
+		// fmt.Printf("After %s\n", i)
 
 		if i != "" {
 			final_output_list = append(final_output_list, i)
 		}
 	}
 	natsort.Sort(final_output_list)
-	fmt.Println("Final sorted list: ", final_output_list)
+	// fmt.Println("Final sorted list: ", final_output_list)
 
 	var final_output = final_output_list[len(final_output_list)-1]
 	final_output = strings.ReplaceAll(final_output, "vmlinuz-", "")
 
-	fmt.Println("Final single item: ", final_output)
+	// fmt.Println("Final single item: ", final_output)
 	return final_output
 }
