@@ -139,8 +139,9 @@ func cmdLsBoot() string {
 
 	for _, i := range output_list {
 		//CentOS7 sort fix
-		fmt.Println(i)
+		fmt.Printf("Before %s", i)
 		i = strings.ReplaceAll(i, ".el7.x86_64", "")
+		fmt.Printf("After %s", i)
 
 		if i != "" {
 			output_list = append(output_list, i)
