@@ -139,9 +139,9 @@ func cmdLsBoot() string {
 
 	for _, i := range output_list {
 		//CentOS7 sort fix
-		fmt.Printf("Before %s", i)
+		fmt.Printf("Before %s\n", i)
 		i = strings.ReplaceAll(i, ".el7.x86_64", "")
-		fmt.Printf("After %s", i)
+		fmt.Printf("After %s\n", i)
 
 		if i != "" {
 			output_list = append(output_list, i)
@@ -153,6 +153,6 @@ func cmdLsBoot() string {
 	var final_output = output_list[len(output_list)-1]
 	final_output = strings.ReplaceAll(final_output, "vmlinuz-", "")
 
-	// fmt.Println("Final single item: ", final_output)
+	fmt.Println("Final single item: ", final_output)
 	return final_output
 }
