@@ -148,7 +148,7 @@ func cmdLsBoot() string {
 		}
 	}
 	natsort.Sort(output_list)
-	// fmt.Println("Final sorted list: ", output_list_normal)
+	fmt.Println("Final sorted list: ", output_list_normal)
 
 	var final_output = output_list[len(output_list)-1]
 	final_output = strings.ReplaceAll(final_output, "vmlinuz-", "")
